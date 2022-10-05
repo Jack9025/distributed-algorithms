@@ -6,28 +6,30 @@ from .process_manager import MessageManager
 class EchoProcess:
     def __init__(self, process_id: int, msg_manager: MessageManager):
         self.p_id = process_id  # ID of current process
+        self.msg_manager = msg_manager  # Message manager
+        self.neigh = []  # Neighbours of current process
+        self.initialised = False  # Not yet initialised
+
         self.decide = False  # If process has decided
         self.rec = 0  # Number of received messages
-        self.father = None
+        self.father = None  # Father of process
+        self.initiator = None  # If process is initiator
 
-        # Process specific
-        self.msg_manager = msg_manager
-        self.neigh = []  # Neighbours
-        self.initiator = None
-
-        self.initialised = False
-
-    def initialise(self, neighbours, initiator=False):
+    def initialise(self, initiator=False):
         assert not self.initialised
         assert self.msg_manager.initialised
+        assert len(self.neigh) >= 1
 
-        self.neigh = neighbours
         self.initiator = initiator
         self.initialised = True
 
         # Begin executing echo algorithm
         thread = Thread(target=self.process)
         thread.start()
+
+    def add_neigh(self, neigh):
+        assert neigh not in self.neigh
+        self.neigh.append(neigh)
 
     def receive(self) -> int:
         while not self.msg_manager.has_message(self.p_id):
