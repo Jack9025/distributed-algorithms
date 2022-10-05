@@ -1,5 +1,5 @@
 from .message_manager import MessageManager
-from random import randint, choice
+from random import randint, choice, shuffle
 from .process import Process
 from treelib import Tree
 
@@ -44,6 +44,9 @@ def begin_processes():
     # Display tree generated
     print("Tree generated: ")
     tree.show()
+
+    # Randomly reorder processes
+    shuffle(processes)
 
     # Initialise message manager and processes
     msg_manager.initialise(processes)
