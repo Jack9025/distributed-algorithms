@@ -11,17 +11,20 @@ def log(msg):
     logs.append(msg)
 
 
-def begin_processes():
+def generate_processes(num_processes: int, display_tree=False) -> list:
+    """Generates the processes and randomly orders them in a tree"""
+    assert num_processes >= 2
+
     # Tree with root node 1
     root = Process(1, msg_manager)
     processes = [root]
 
-    # Tree using for display
+    # Tree used for display
     tree = Tree()
     tree.create_node(str(root), str(root))
 
-    # Nodes to add to tree with ids from 2 to 7
-    nodes = [Process(x, msg_manager) for x in range(2, 8)]
+    # Node processes to add to tree
+    nodes = [Process(x, msg_manager) for x in range(2, num_processes+1)]
     while len(nodes) > 0:
         # Pick random node
         i = randint(0, len(nodes) - 1)
@@ -41,12 +44,21 @@ def begin_processes():
         # Remove from nodes to add
         del nodes[i]
 
-    # Display tree generated
-    print("Tree generated: ")
-    tree.show()
+    if display_tree:
+        # Display tree generated
+        print("Tree generated: ")
+        tree.show()
 
-    # Randomly reorder processes
+    # Randomly reorder processes in list
     shuffle(processes)
+
+    return processes
+
+
+def run_tree_algorithm():
+    """Runs the tree algorithm and displays the tree and logs from processes"""
+    # Generate processes
+    processes = generate_processes(8, display_tree=True)
 
     # Initialise message manager and processes
     msg_manager.initialise(processes)
@@ -58,6 +70,5 @@ def begin_processes():
         pass
 
     # Output logs
+    print("Logs from processes:")
     print("\n".join(logs))
-
-

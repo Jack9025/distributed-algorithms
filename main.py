@@ -1,4 +1,4 @@
-from tree_algorithm.process_manager import begin_processes
+from tree_algorithm.process_manager import run_tree_algorithm
 
 if __name__ == "__main__":
-    begin_processes()
+    run_tree_algorithm()
