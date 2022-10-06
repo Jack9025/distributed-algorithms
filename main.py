@@ -1,5 +1,4 @@
-from echo_algorithm.process_manager import run_echo_algorithm
-from tree_algorithm.process_manager import run_tree_algorithm
+from distributed_algorithms.cli import cli
 
 if __name__ == "__main__":
-    run_echo_algorithm()
+    cli()

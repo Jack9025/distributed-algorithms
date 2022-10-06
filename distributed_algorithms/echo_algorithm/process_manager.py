@@ -99,8 +99,8 @@ def find_tree(processes: dict, initiator: EchoProcess, display=False) -> Tree:
     return tree
 
 
-def run_echo_algorithm():
-    processes = generate_processes(8, display=True)
+def run_echo_algorithm(num_processes: int):
+    processes = generate_processes(num_processes, display=True)
 
     # Initialise message manager and processes
     msg_manager.initialise(processes)
