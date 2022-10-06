@@ -55,10 +55,10 @@ def generate_processes(num_processes: int, display_tree=False) -> list:
     return processes
 
 
-def run_tree_algorithm():
+def run_tree_algorithm(num_processes: int):
     """Runs the tree algorithm and displays the tree and logs from processes"""
     # Generate processes
-    processes = generate_processes(8, display_tree=True)
+    processes = generate_processes(num_processes, display_tree=True)
 
     # Initialise message manager and processes
     msg_manager.initialise(processes)
