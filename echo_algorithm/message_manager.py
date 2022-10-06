@@ -27,17 +27,18 @@ class MessageManager:
 
         self.initialised = True
 
-    def has_message(self, p_id: int):
+    def has_message(self, p_id: int) -> bool:
         """Checks if p has received a message"""
         assert (p_id in self.messages)
         return len([m for m in self.messages[p_id] if m.has_arrived()]) >= 1
 
-    def fetch_message(self, p_id: int):
-        """Fetches process ids of messages sent to p"""
+    def fetch_message(self, p_id: int) -> int:
+        """Fetches process ids of message sent to p"""
         assert (self.has_message(p_id))
-        msg = self.messages[p_id][0].s_id
-        del self.messages[p_id][0]
-        return msg
+        available_msg = [m for m in self.messages[p_id] if m.has_arrived()]
+        msg = self.messages[p_id][randint(0, len(available_msg) - 1)]  # Select a random message
+        self.messages[p_id].remove(msg)  # Delete message
+        return msg.s_id
 
     def add_message(self, p_id: int, q_id: int):
         """Adds message from p_id to q_id"""
