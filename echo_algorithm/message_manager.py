@@ -36,7 +36,7 @@ class MessageManager:
         """Fetches process ids of message sent to p"""
         assert (self.has_message(p_id))
         available_msg = [m for m in self.messages[p_id] if m.has_arrived()]
-        msg = self.messages[p_id][randint(0, len(available_msg) - 1)]  # Select a random message
+        msg = available_msg[randint(0, len(available_msg) - 1)]  # Select a random message
         self.messages[p_id].remove(msg)  # Delete message
         return msg.s_id
 
