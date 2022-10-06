@@ -1,7 +1,8 @@
-from .message_manager import MessageManager
+
 from random import randint, choice, shuffle
 from .process import Process
 from treelib import Tree
+from ...generic.messages import MessageManager
 
 msg_manager = MessageManager()
 logs = []
