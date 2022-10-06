@@ -1,6 +1,6 @@
 import argparse
-from .echo_algorithm.process_manager import run_echo_algorithm
-from .tree_algorithm.process_manager import run_tree_algorithm
+from distributed_algorithms.algorithms.echo_algorithm.process_manager import run_echo_algorithm
+from distributed_algorithms.algorithms.tree_algorithm.process_manager import run_tree_algorithm
 
 
 def tree_algorithm(args):

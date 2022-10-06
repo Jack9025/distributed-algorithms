@@ -1,9 +1,9 @@
 from random import randint, choice, shuffle
 from treelib import Tree
 from .echo_process import EchoProcess
-from .message_manager import MessageManager
 import networkx as nx
 import matplotlib.pyplot as plt
+from ...generic.messages import MessageManager
 
 msg_manager = MessageManager(delay_msg=True)
 logs = []
