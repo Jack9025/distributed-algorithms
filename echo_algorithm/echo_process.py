@@ -49,7 +49,7 @@ class EchoProcess:
             # Process is initiator
             for q in self.neigh:
                 self.send(q)
-                self.log(f"Sent <tok> to {q}")
+            self.log(f"Sent <tok> to {', '.join(str(q) for q in self.neigh)}")
 
             while self.rec < len(self.neigh):
                 q = self.receive()
@@ -68,7 +68,7 @@ class EchoProcess:
 
             for q in [q for q in self.neigh if q != self.father]:
                 self.send(q)
-                self.log(f"Sent <tok> to {q}")
+            self.log(f"Sent <tok> to {', '.join([str(q) for q in self.neigh if q != self.father])}")
 
             while self.rec < len(self.neigh):
                 q = self.receive()
