@@ -1,6 +1,6 @@
 from threading import Thread
 from . import process_manager
-from tree_algorithm.message_manager import MessageManager
+from .message_manager import MessageManager
 
 
 class EchoProcess:
