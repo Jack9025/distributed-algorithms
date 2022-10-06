@@ -19,13 +19,13 @@ def cli():
     parser_tree = subparsers.add_parser('tree', help='runs the tree wave algorithm')
     parser_tree.set_defaults(func=tree_algorithm)
     parser_tree.add_argument('-n', '--num_processes', help='number of processes',
-                             type=int, default=8, choices=range(2, 16))
+                             type=int, default=8, choices=range(2, 65))
 
     # Echo wave algorithm
     parser_echo = subparsers.add_parser('echo', help='runs the echo wave algorithm')
     parser_echo.set_defaults(func=echo_algorithm)
     parser_echo.add_argument('-n', '--num_processes', help='number of processes',
-                             type=int, default=8, choices=range(2, 16))
+                             type=int, default=8, choices=range(2, 65))
 
     # Parse command line
     args = parser.parse_args()
