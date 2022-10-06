@@ -127,3 +127,6 @@ def run_echo_algorithm():
     print("Tree produced by echo algorithm from processes:")
     tree = find_tree({p.p_id: p for p in processes}, initiator, display=True)
     tree.show()
+
+    # Message count
+    print(f"Total number of messages sent during echo algorithm: {msg_manager.message_count}\n")

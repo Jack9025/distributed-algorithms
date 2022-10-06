@@ -14,6 +14,7 @@ class MessageManager:
         self.processes = []
         self.messages = {}
         self.delay_msg = delay_msg
+        self.message_count = 0
         self.initialised = False
 
     def initialise(self, processes):
@@ -25,6 +26,7 @@ class MessageManager:
         for process in processes:
             self.messages[process.p_id] = []
 
+        self.message_count = 0
         self.initialised = True
 
     def has_message(self, p_id: int) -> bool:
@@ -43,6 +45,7 @@ class MessageManager:
     def add_message(self, p_id: int, q_id: int):
         """Adds message from p_id to q_id"""
         self.messages[q_id].append(Message(p_id, self.delay_msg))
+        self.message_count += 1
 
 
 class Message:
