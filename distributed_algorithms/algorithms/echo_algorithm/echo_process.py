@@ -1,14 +1,13 @@
 from threading import Thread
 from . import process_manager
 from ...generic.messages import MessageManager
+from ...generic.process import GenericProcess
 
 
-class EchoProcess:
+class EchoProcess(GenericProcess):
     def __init__(self, process_id: int, msg_manager: MessageManager):
-        self.p_id = process_id  # ID of current process
-        self.msg_manager = msg_manager  # Message manager
-        self.neigh = []  # Neighbours of current process
-        self.initialised = False  # Not yet initialised
+        # Generic process
+        super().__init__(process_id, msg_manager)
 
         self.decide = False  # If process has decided
         self.rec = 0  # Number of received messages
@@ -26,21 +25,6 @@ class EchoProcess:
         # Begin executing echo algorithm
         thread = Thread(target=self.process)
         thread.start()
-
-    def add_neigh(self, neigh):
-        assert neigh not in self.neigh
-        self.neigh.append(neigh)
-
-    def receive(self) -> int:
-        while not self.msg_manager.has_message(self.p_id):
-            # Wait until p has received message
-            pass
-
-        # Fetch and return message for p
-        return self.msg_manager.fetch_message(self.p_id)
-
-    def send(self, q):
-        self.msg_manager.add_message(self.p_id, q)
 
     def process(self):
         assert self.initialised
