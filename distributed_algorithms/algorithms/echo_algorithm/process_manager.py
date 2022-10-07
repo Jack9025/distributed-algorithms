@@ -48,7 +48,7 @@ def generate_processes(num_processes: int, display=False) -> list:
     for process in processes:
         available = [q for q in processes if q != process and q.p_id not in process.neigh]
         shuffle(available)
-        for i in range(randint(0, len(available) // 2)):
+        for i in range(randint(0, 3 if len(available) > 3 else len(available))):
             # Add neighbour to processes
             process.add_neigh(available[i].p_id)
             available[i].add_neigh(process.p_id)
