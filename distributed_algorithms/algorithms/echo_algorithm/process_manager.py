@@ -1,11 +1,11 @@
 from random import randint, choice, shuffle
+from typing import List
 from treelib import Tree
 from .echo_process import EchoProcess
 import networkx as nx
 from ...generic.graph import display_graph
 from ...generic.messages import MessageManager
 
-msg_manager = MessageManager(delay_msg=True)
 logs = []
 
 
@@ -13,8 +13,12 @@ def log(msg):
     logs.append(msg)
 
 
-def generate_processes(num_processes: int, display=False) -> list:
+def generate_processes(num_processes: int, display=False) -> (List[EchoProcess], MessageManager):
+    """Generates the processes with message manager and randomly links them together"""
     assert num_processes >= 2
+
+    # Message manager
+    msg_manager = MessageManager(delay_msg=True)
 
     # Graph
     g = nx.Graph()
@@ -62,7 +66,7 @@ def generate_processes(num_processes: int, display=False) -> list:
         # Display the generated graph
         display_graph(g, "Network before echo algorithm")
 
-    return processes
+    return processes, msg_manager
 
 
 def find_tree(processes: dict, initiator: EchoProcess, display=False) -> Tree:
@@ -96,7 +100,8 @@ def find_tree(processes: dict, initiator: EchoProcess, display=False) -> Tree:
 
 
 def run_echo_algorithm(num_processes: int):
-    processes = generate_processes(num_processes, display=True)
+    # Generate processes with message managaer
+    processes, msg_manager = generate_processes(num_processes, display=True)
 
     # Initialise message manager and processes
     msg_manager.initialise(processes)

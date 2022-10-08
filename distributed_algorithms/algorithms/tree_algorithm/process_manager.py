@@ -1,10 +1,12 @@
 
 from random import randint, choice, shuffle
+
+from typing import List
+
 from .tree_process import TreeProcess
 from treelib import Tree
 from ...generic.messages import MessageManager
 
-msg_manager = MessageManager(delay_msg=True)
 logs = []
 
 
@@ -12,9 +14,12 @@ def log(msg):
     logs.append(msg)
 
 
-def generate_processes(num_processes: int, display_tree=False) -> list:
-    """Generates the processes and randomly orders them in a tree"""
+def generate_processes(num_processes: int, display_tree=False) -> (List[TreeProcess], MessageManager):
+    """Generates the processes with message manager and randomly orders them in a tree"""
     assert num_processes >= 2
+
+    # Message manager for processes
+    msg_manager = MessageManager(delay_msg=True)
 
     # Tree with root node 1
     root = TreeProcess(1, msg_manager)
@@ -53,13 +58,13 @@ def generate_processes(num_processes: int, display_tree=False) -> list:
     # Randomly reorder processes in list
     shuffle(processes)
 
-    return processes
+    return processes, msg_manager
 
 
 def run_tree_algorithm(num_processes: int):
     """Runs the tree algorithm and displays the tree and logs from processes"""
     # Generate processes
-    processes = generate_processes(num_processes, display_tree=True)
+    processes, msg_manager = generate_processes(num_processes, display_tree=True)
 
     # Initialise message manager and processes
     msg_manager.initialise(processes)
