@@ -1,10 +1,10 @@
 
 from random import randint, choice, shuffle
-from .process import Process
+from .tree_process import TreeProcess
 from treelib import Tree
 from ...generic.messages import MessageManager
 
-msg_manager = MessageManager()
+msg_manager = MessageManager(delay_msg=True)
 logs = []
 
 
@@ -17,7 +17,7 @@ def generate_processes(num_processes: int, display_tree=False) -> list:
     assert num_processes >= 2
 
     # Tree with root node 1
-    root = Process(1, msg_manager)
+    root = TreeProcess(1, msg_manager)
     processes = [root]
 
     # Tree used for display
@@ -25,7 +25,7 @@ def generate_processes(num_processes: int, display_tree=False) -> list:
     tree.create_node(str(root), str(root))
 
     # Node processes to add to tree
-    nodes = [Process(x, msg_manager) for x in range(2, num_processes+1)]
+    nodes = [TreeProcess(x, msg_manager) for x in range(2, num_processes+1)]
     while len(nodes) > 0:
         # Pick random node
         i = randint(0, len(nodes) - 1)
@@ -33,8 +33,8 @@ def generate_processes(num_processes: int, display_tree=False) -> list:
 
         # Pick random parent and add child
         rand_parent = choice(processes)
-        rand_parent.add_child(current_node)
-        current_node.set_parent(rand_parent)
+        rand_parent.add_neigh(current_node.p_id)
+        current_node.add_neigh(rand_parent.p_id)
 
         # Add process to tree display
         tree.create_node(str(current_node), str(current_node), parent=str(rand_parent))

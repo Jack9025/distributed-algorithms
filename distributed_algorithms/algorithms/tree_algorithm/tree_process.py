@@ -1,63 +1,31 @@
 from threading import Thread
 from . import process_manager
 from ...generic.messages import MessageManager
+from ...generic.process import GenericProcess
 
 
-class Process:
+class TreeProcess(GenericProcess):
     def __init__(self, process_id: int, msg_manager: MessageManager):
-        self.p_id = process_id  # ID of current process
+        super().__init__(process_id, msg_manager)  # Generic process
+
+        self.rec = {}  # Record if message received from neighbour
         self.decide = False  # If process has decided
-        self.rec = {}
-        self.neigh = []
-
-        # Process specific
-        self.msg_manager = msg_manager
-
-        # Tree attributes for parent and children
-        self.parent = None
-        self.children = []
-
-        self.initialised = False
 
     def initialise(self):
         assert not self.initialised
         assert self.msg_manager.initialised
 
-        for q in self.get_neigh():
+        self.rec = {}
+        for q in self.neigh:
             # Record if p has received message from q
             self.rec[q] = False
 
-        self.neigh = self.get_neigh()
-
+        self.decide = False
         self.initialised = True
 
         # Begin executing tree algorithm
         thread = Thread(target=self.process)
         thread.start()
-
-    def set_parent(self, node):
-        self.parent = node
-
-    def add_child(self, node):
-        self.children += [node]
-
-    def get_neigh(self):
-        neigh = []
-        if self.parent:
-            neigh += [self.parent.p_id]
-        neigh += [q.p_id for q in self.children]
-        return neigh
-
-    def receive(self) -> int:
-        while not self.msg_manager.has_message(self.p_id):
-            # Wait until p has received message
-            pass
-
-        # Fetch and return message for p
-        return self.msg_manager.fetch_message(self.p_id)
-
-    def send(self, q):
-        self.msg_manager.add_message(self.p_id, q)
 
     def process(self):
         assert self.initialised
@@ -98,6 +66,3 @@ class Process:
 
     def log(self, msg: str):
         process_manager.log(f"{self}: {msg}")
-
-    def __str__(self):
-        return f"Process <{self.p_id}>"
