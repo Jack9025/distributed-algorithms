@@ -1,5 +1,4 @@
 from threading import Thread
-from . import process_manager
 from ...generic.messages import MessageManager
 from ...generic.process import GenericProcess
 
@@ -63,9 +62,6 @@ class EchoProcess(GenericProcess):
 
             self.send(self.father)
             self.log(f"Sent <tok> to father {self.father}")
-
-    def log(self, msg: str):
-        process_manager.log(f"{self}: {msg}")
 
     def __str__(self):
         return f"Process <{self.p_id}>{' (INITIATOR)' if self.initiator else ''}"

@@ -13,6 +13,7 @@ class MessageManager:
     def __init__(self, delay_msg=False):
         self.processes = []
         self.messages = {}
+        self.logs = []
         self.delay_msg = delay_msg
         self.message_count = 0
         self.initialised = False
@@ -46,6 +47,10 @@ class MessageManager:
         """Adds message from p_id to q_id"""
         self.messages[q_id].append(Message(p_id, self.delay_msg))
         self.message_count += 1
+
+    def log(self, msg: str):
+        """Adds message to logs"""
+        self.logs.append(msg)
 
 
 class Message:

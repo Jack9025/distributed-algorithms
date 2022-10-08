@@ -1,5 +1,4 @@
 from threading import Thread
-from . import process_manager
 from ...generic.messages import MessageManager
 from ...generic.process import GenericProcess
 
@@ -63,6 +62,3 @@ class TreeProcess(GenericProcess):
             self.log(f"Informing {', '.join([str(q) for q in self.neigh if q != q0])} of decision")
         for q_star in [q for q in self.neigh if q != q0]:
             self.send(q_star)
-
-    def log(self, msg: str):
-        process_manager.log(f"{self}: {msg}")

@@ -26,5 +26,9 @@ class GenericProcess:
         """Sends a message to a process"""
         self.msg_manager.add_message(self.p_id, q_id)
 
+    def log(self, msg: str):
+        """Logs a message"""
+        self.msg_manager.log(f"{self}: {msg}")
+
     def __str__(self):
         return f"Process <{self.p_id}>"

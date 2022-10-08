@@ -7,12 +7,6 @@ from .tree_process import TreeProcess
 from treelib import Tree
 from ...generic.messages import MessageManager
 
-logs = []
-
-
-def log(msg):
-    logs.append(msg)
-
 
 def generate_processes(num_processes: int, display_tree=False) -> (List[TreeProcess], MessageManager):
     """Generates the processes with message manager and randomly orders them in a tree"""
@@ -77,4 +71,4 @@ def run_tree_algorithm(num_processes: int):
 
     # Output logs
     print("Logs from processes:")
-    print("\n".join(logs))
+    print("\n".join(msg_manager.logs))
