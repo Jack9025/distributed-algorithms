@@ -13,7 +13,7 @@ class GenericProcess:
         assert neigh not in self.neigh
         self.neigh.append(neigh)
 
-    def receive(self, msg_class=Message) -> Message:
+    def receive(self, msg_class=Message):
         """Gets the message received by the process"""
         while not self.msg_manager.has_message(self.p_id, msg_class):
             # Wait until p has received message
