@@ -13,18 +13,21 @@ class GenericProcess:
         assert neigh not in self.neigh
         self.neigh.append(neigh)
 
-    def receive(self) -> Message:
+    def receive(self, msg_class=Message) -> Message:
         """Gets the message received by the process"""
-        while not self.msg_manager.has_message(self.p_id):
+        while not self.msg_manager.has_message(self.p_id, msg_class):
             # Wait until p has received message
             pass
 
         # Fetch and return message for p
-        return self.msg_manager.fetch_message(self.p_id)
+        return self.msg_manager.fetch_message(self.p_id, msg_class)
 
-    def send(self, q_id: int):
+    def send(self, q_id: int, msg: Message = None):
         """Sends a message to process q"""
-        self.msg_manager.add_message(q_id, Message(self.p_id))
+        if not msg:
+            # Default to basic message with p_id
+            msg = Message(self.p_id)
+        self.msg_manager.add_message(q_id, msg)
 
     def log(self, msg: str):
         """Logs a message"""
