@@ -1,4 +1,4 @@
-from .messages import MessageManager
+from .messages import MessageManager, Message
 
 
 class GenericProcess:
@@ -13,8 +13,8 @@ class GenericProcess:
         assert neigh not in self.neigh
         self.neigh.append(neigh)
 
-    def receive(self) -> int:
-        """Gets the process ID of the message received"""
+    def receive(self) -> Message:
+        """Gets the message received by the process"""
         while not self.msg_manager.has_message(self.p_id):
             # Wait until p has received message
             pass
@@ -23,8 +23,8 @@ class GenericProcess:
         return self.msg_manager.fetch_message(self.p_id)
 
     def send(self, q_id: int):
-        """Sends a message to a process"""
-        self.msg_manager.add_message(self.p_id, q_id)
+        """Sends a message to process q"""
+        self.msg_manager.add_message(q_id, Message(self.p_id))
 
     def log(self, msg: str):
         """Logs a message"""

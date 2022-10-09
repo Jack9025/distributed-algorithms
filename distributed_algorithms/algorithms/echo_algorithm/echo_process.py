@@ -35,7 +35,7 @@ class EchoProcess(GenericProcess):
             self.log(f"Sent <tok> to {', '.join(str(q) for q in self.neigh)}")
 
             while self.rec < len(self.neigh):
-                q = self.receive()
+                q = self.receive().s_id
                 self.rec += 1
                 self.log(f"Received <tok> from {q}")
 
@@ -44,7 +44,7 @@ class EchoProcess(GenericProcess):
 
         else:
             # Process is non-initiator
-            q = self.receive()
+            q = self.receive().s_id
             self.father = q
             self.rec += 1
             self.log(f"Received <tok> from father {q}")
@@ -54,7 +54,7 @@ class EchoProcess(GenericProcess):
             self.log(f"Sent <tok> to {', '.join([str(q) for q in self.neigh if q != self.father])}")
 
             while self.rec < len(self.neigh):
-                q = self.receive()
+                q = self.receive().s_id
                 self.rec += 1
                 self.log(f"Received <tok> from {q}")
 

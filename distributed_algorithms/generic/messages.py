@@ -9,6 +9,20 @@ def time() -> float:
     return ts
 
 
+class Message:
+    def __init__(self, s_id: int):
+        self.s_id = s_id
+        self.delay = time()
+
+    def add_delay(self):
+        """Adds random delay of upto 2 seconds to message delivery time"""
+        self.delay += randint(0, 2000) / 1000
+
+    def has_arrived(self) -> bool:
+        """Checks if message has arrived"""
+        return self.delay - time() < 0
+
+
 class MessageManager:
     def __init__(self, delay_msg=False):
         self.processes = []
@@ -35,32 +49,21 @@ class MessageManager:
         assert (p_id in self.messages)
         return len([m for m in self.messages[p_id] if m.has_arrived()]) >= 1
 
-    def fetch_message(self, p_id: int) -> int:
+    def fetch_message(self, p_id: int) -> Message:
         """Fetches process ids of message sent to p"""
         assert (self.has_message(p_id))
         available_msg = [m for m in self.messages[p_id] if m.has_arrived()]
         msg = available_msg[randint(0, len(available_msg) - 1)]  # Select a random message
         self.messages[p_id].remove(msg)  # Delete message
-        return msg.s_id
+        return msg
 
-    def add_message(self, p_id: int, q_id: int):
-        """Adds message from p_id to q_id"""
-        self.messages[q_id].append(Message(p_id, self.delay_msg))
+    def add_message(self, q_id: int, msg: Message):
+        """Adds message sent to q"""
+        if self.delay_msg:
+            msg.add_delay()
+        self.messages[q_id].append(msg)
         self.message_count += 1
 
     def log(self, msg: str):
         """Adds message to logs"""
         self.logs.append(msg)
-
-
-class Message:
-    def __init__(self, s_id: int, delay: bool):
-        self.s_id = s_id
-        self.delay = time()
-        if delay:
-            # Random delay upto 2 seconds
-            self.delay += randint(0, 2000) / 1000
-
-    def has_arrived(self) -> bool:
-        """Checks if message has arrived"""
-        return self.delay - time() < 0
