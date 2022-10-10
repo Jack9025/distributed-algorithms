@@ -1,6 +1,7 @@
 import argparse
 from distributed_algorithms.algorithms.echo_algorithm.process_manager import run_echo_algorithm
 from distributed_algorithms.algorithms.tree_algorithm.process_manager import run_tree_algorithm
+from distributed_algorithms.algorithms.tree_election_algorithm.process_manager import run_tree_election_algorithm
 
 
 def tree_algorithm(args):
@@ -9,6 +10,10 @@ def tree_algorithm(args):
 
 def echo_algorithm(args):
     run_echo_algorithm(args.num_processes)
+
+
+def tree_election_algorithm(args):
+    run_tree_election_algorithm(args.num_processes)
 
 
 def cli():
@@ -24,6 +29,12 @@ def cli():
     # Echo wave algorithm
     parser_echo = subparsers.add_parser('echo', help='runs the echo wave algorithm')
     parser_echo.set_defaults(func=echo_algorithm)
+    parser_echo.add_argument('-n', '--num_processes', help='number of processes',
+                             type=int, default=8, choices=range(2, 65))
+
+    # Tree election algorithm
+    parser_echo = subparsers.add_parser('tree_election', help='runs the tree election algorithm')
+    parser_echo.set_defaults(func=tree_election_algorithm)
     parser_echo.add_argument('-n', '--num_processes', help='number of processes',
                              type=int, default=8, choices=range(2, 65))
 
