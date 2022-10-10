@@ -11,7 +11,7 @@ class State(Enum):
     LOST = 2
 
 
-class TreeProcess(GenericProcess):
+class TreeElectionProcess(GenericProcess):
     def __init__(self, process_id: int, msg_manager: MessageManager):
         super().__init__(process_id, msg_manager)  # Generic process
 
@@ -51,6 +51,7 @@ class TreeProcess(GenericProcess):
         if self.initiator:
             # Process is initiator
             self.ws = True
+            self.log(f"Woken up as initiator")
             for q in self.neigh:
                 self.send(q, WakeUpMessage(self.p_id))
             self.log(f"Sent <wakeup> to {', '.join(str(q) for q in self.neigh)}")
@@ -65,7 +66,7 @@ class TreeProcess(GenericProcess):
                 self.log(f"Woken up")
                 for q in self.neigh:
                     self.send(q, WakeUpMessage(self.p_id))
-                    self.log(f"Sent <wakeup> to {', '.join(str(q) for q in self.neigh)}")
+                self.log(f"Sent <wakeup> to {', '.join(str(q) for q in self.neigh)}")
         self.log(f"Received <wakeup> from all neighbours")
 
         # Now start the tree algorithm
@@ -112,3 +113,6 @@ class TreeProcess(GenericProcess):
             self.log(f"Informing {', '.join([str(q) for q in self.neigh if q != q0])} of decision")
         for q_star in [q for q in self.neigh if q != q0]:
             self.send(q_star, TokElectionMessage(self.p_id, self.v))
+
+    def __str__(self):
+        return f"Process <{self.p_id}>{' (INITIATOR)' if self.initiator else ''}"
