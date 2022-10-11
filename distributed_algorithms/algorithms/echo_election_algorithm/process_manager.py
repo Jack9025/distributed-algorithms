@@ -4,7 +4,7 @@ from treelib import Tree
 
 from .echo_election_process import EchoElectionProcess
 import networkx as nx
-from ...generic.graph import display_graph
+from ...generic.graph import display_graph, count_edges
 from ...generic.messages import MessageManager
 
 
@@ -98,6 +98,17 @@ def find_tree(processes: List[EchoElectionProcess], display=False) -> Tree:
 def run_echo_election_algorithm(num_processes: int, num_initiator: int):
     # Generate processes with message manager
     processes, msg_manager = generate_processes(num_processes, display=True)
+    print("Generated processes:")
+    print(f"- {len(processes)} processes")
+    print(f"- {count_edges(processes)} edges\n")
+
+    # Initiators of echo election algorithm
+    print(f"Initiators selected: ")
+    for i in range(len(processes)):
+        if i == num_initiator:
+            break
+        print(f"- {processes[i]}")
+    print()
 
     # Initialise message manager and processes
     msg_manager.initialise(processes)
