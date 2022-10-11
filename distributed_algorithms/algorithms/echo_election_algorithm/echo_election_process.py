@@ -67,6 +67,8 @@ class EchoElectionProcess(GenericProcess):
                 if self.lrec == 0:
                     for q in self.neigh:
                         self.send(q, LdrMessage(self.p_id, msg.r))
+                    self.log(f"Sent <ldr, {self.p_id}> to all neighbours "
+                             f"{', '.join(str(q) for q in self.neigh)}")
                 self.lrec += 1
                 self.win = msg.r
 
@@ -76,16 +78,17 @@ class EchoElectionProcess(GenericProcess):
 
                 if msg.r < self.caw:
                     # Reinitialise algorithm
+                    self.log(f"Set self.caw = {msg.r} (as {msg.r} < {self.caw})")
                     self.caw = msg.r
                     self.rec = 0
                     self.father = msg.s_id
-                    for q in self.neigh:
+                    for q in [q for q in self.neigh if q != self.father]:
                         self.send(q, TokMessage(self.p_id, msg.r))
-                    self.log(f"Sent <tok, {self.p_id}> to all neighbours "
-                             f"{', '.join(str(q) for q in self.neigh)}")
+                    self.log(f"Sent <tok, {msg.r}> to "
+                             f"{', '.join([str(q) for q in self.neigh if q != self.father])}")
 
-                elif msg.r == self.caw:
-                    self.rec = self.rec + 1
+                if msg.r == self.caw:
+                    self.rec += 1
                     if self.rec == len(self.neigh):
                         if self.caw == self.p_id:
                             for q in self.neigh:
