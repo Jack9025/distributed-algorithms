@@ -44,15 +44,17 @@ class MessageManager:
         self.message_count = 0
         self.initialised = True
 
-    def has_message(self, p_id: int, msg_class=Message) -> bool:
+    def has_message(self, p_id: int, msg_class=None) -> bool:
         """Checks if p has received a message"""
         assert (p_id in self.messages)
-        return len([m for m in self.messages[p_id] if m.has_arrived() and type(m) == msg_class]) >= 1
+        return len([m for m in self.messages[p_id] if m.has_arrived() and
+                    (msg_class is None or type(m) == msg_class)]) >= 1
 
-    def fetch_message(self, p_id: int, msg_class=Message) -> Message:
+    def fetch_message(self, p_id: int, msg_class=None) -> Message:
         """Fetches process ids of message sent to p"""
         assert self.has_message(p_id, msg_class)
-        available_msg = [m for m in self.messages[p_id] if m.has_arrived() and type(m) == msg_class]
+        available_msg = [m for m in self.messages[p_id] if m.has_arrived() and
+                         (msg_class is None or type(m) == msg_class)]
         msg = available_msg[randint(0, len(available_msg) - 1)]  # Select a random message
         self.messages[p_id].remove(msg)  # Delete message
         return msg
