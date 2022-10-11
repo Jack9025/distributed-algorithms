@@ -79,6 +79,7 @@ class EchoElectionProcess(GenericProcess):
                 if msg.r < self.caw:
                     # Reinitialise algorithm
                     self.log(f"Set self.caw = {msg.r} (as {msg.r} < {self.caw})")
+                    self.log(f"Father is {msg.s_id}")
                     self.caw = msg.r
                     self.rec = 0
                     self.father = msg.s_id
