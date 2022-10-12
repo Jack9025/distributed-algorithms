@@ -18,7 +18,7 @@ def tree_election_algorithm(args):
 
 
 def echo_election_algorithm(args):
-    run_echo_election_algorithm(args.num_processes, args.num_initiator)
+    run_echo_election_algorithm(args.num_processes, args.num_initiator, args.executions)
 
 
 def cli():
@@ -50,6 +50,8 @@ def cli():
                              type=int, default=8, choices=range(2, 65))
     parser_echo.add_argument('-i', '--num_initiator', help='number of initiators',
                              type=int, default=1, choices=range(1, 65))
+    parser_echo.add_argument('-e', '--executions', help='number of executions',
+                             type=int, default=1, choices=range(1, 10))
 
     # Parse command line
     args = parser.parse_args()
