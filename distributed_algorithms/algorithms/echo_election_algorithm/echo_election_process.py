@@ -78,7 +78,7 @@ class EchoElectionProcess(GenericProcess):
 
                 if msg.r < self.caw:
                     # Reinitialise algorithm
-                    self.log(f"Set self.caw = {msg.r} (as {msg.r} < {self.caw})")
+                    self.log(f"Set caw={msg.r} (as {msg.r} < {self.caw})")
                     self.log(f"Father is {msg.s_id}")
                     self.caw = msg.r
                     self.rec = 0
@@ -110,7 +110,7 @@ class EchoElectionProcess(GenericProcess):
             self.state = State.LOST
 
         self.decide = True
-        self.log("Decided")
+        self.log(f"Decided; win={self.win}; state={self.state}")
 
     def __str__(self):
         return f"Process <{self.p_id}>{' (INITIATOR)' if self.initiator else ''}"
