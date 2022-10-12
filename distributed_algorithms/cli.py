@@ -6,19 +6,19 @@ from distributed_algorithms.algorithms.tree_election_algorithm.process_manager i
 
 
 def tree_algorithm(args):
-    run_tree_algorithm(args.num_processes)
+    run_tree_algorithm(args.processes)
 
 
 def echo_algorithm(args):
-    run_echo_algorithm(args.num_processes)
+    run_echo_algorithm(args.processes)
 
 
 def tree_election_algorithm(args):
-    run_tree_election_algorithm(args.num_processes)
+    run_tree_election_algorithm(args.processes)
 
 
 def echo_election_algorithm(args):
-    run_echo_election_algorithm(args.num_processes, args.num_initiator, args.executions)
+    run_echo_election_algorithm(args.processes, args.initiators, args.executions)
 
 
 def cli():
@@ -28,27 +28,27 @@ def cli():
     # Tree wave algorithm
     parser_tree = subparsers.add_parser('tree', help='runs the tree wave algorithm')
     parser_tree.set_defaults(func=tree_algorithm)
-    parser_tree.add_argument('-n', '--num_processes', help='number of processes',
+    parser_tree.add_argument('-n', '--processes', help='number of processes',
                              type=int, default=8, choices=range(2, 65))
 
     # Echo wave algorithm
     parser_echo = subparsers.add_parser('echo', help='runs the echo wave algorithm')
     parser_echo.set_defaults(func=echo_algorithm)
-    parser_echo.add_argument('-n', '--num_processes', help='number of processes',
+    parser_echo.add_argument('-n', '--processes', help='number of processes',
                              type=int, default=8, choices=range(2, 65))
 
     # Tree election algorithm
     parser_echo = subparsers.add_parser('tree_election', help='runs the tree election algorithm')
     parser_echo.set_defaults(func=tree_election_algorithm)
-    parser_echo.add_argument('-n', '--num_processes', help='number of processes',
+    parser_echo.add_argument('-n', '--processes', help='number of processes',
                              type=int, default=8, choices=range(2, 65))
 
     # Echo election algorithm
     parser_echo = subparsers.add_parser('echo_election', help='runs the echo election algorithm')
     parser_echo.set_defaults(func=echo_election_algorithm)
-    parser_echo.add_argument('-n', '--num_processes', help='number of processes',
+    parser_echo.add_argument('-n', '--processes', help='number of processes',
                              type=int, default=8, choices=range(2, 65))
-    parser_echo.add_argument('-i', '--num_initiator', help='number of initiators',
+    parser_echo.add_argument('-i', '--initiators', help='number of initiators',
                              type=int, default=1, choices=range(1, 65))
     parser_echo.add_argument('-e', '--executions', help='number of executions',
                              type=int, default=1, choices=range(1, 10))
