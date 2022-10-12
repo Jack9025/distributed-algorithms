@@ -8,6 +8,12 @@ class GenericProcess:
         self.neigh = []  # Neighbours of current process
         self.initialised = False  # Not yet initialised
 
+    def initiate(self):
+        self.initialised = True
+
+    def reset(self):
+        self.initialised = False
+
     def add_neigh(self, neigh: int):
         """Adds neighbour to neighbours of process"""
         assert neigh not in self.neigh
