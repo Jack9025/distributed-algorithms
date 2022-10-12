@@ -85,7 +85,7 @@ class EchoElectionProcess(GenericProcess):
                     self.father = msg.s_id
                     for q in [q for q in self.neigh if q != self.father]:
                         self.send(q, TokMessage(self.p_id, msg.r))
-                    if len([q for q in self.neigh if q != self.father]) > 1:
+                    if len([q for q in self.neigh if q != self.father]) > 0:
                         self.log(f"Sent <tok, {msg.r}> to "
                                  f"{', '.join([str(q) for q in self.neigh if q != self.father])}")
 
