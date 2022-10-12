@@ -47,6 +47,9 @@ class MessageManager:
         self.message_count = 0
         self.initialised = True
 
+    def reset(self):
+        self.initialised = False
+
     def has_message(self, p_id: int, msg_class=None) -> bool:
         """Checks if p has received a message"""
         assert (p_id in self.messages)
