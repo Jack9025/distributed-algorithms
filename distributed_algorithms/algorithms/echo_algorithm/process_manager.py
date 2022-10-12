@@ -3,7 +3,7 @@ from typing import List
 from treelib import Tree
 from .echo_process import EchoProcess
 import networkx as nx
-from ...generic.graph import display_graph
+from ...generic.graph import display_graph, count_edges
 from ...generic.messages import MessageManager
 
 
@@ -97,6 +97,9 @@ def find_tree(processes: List[EchoProcess], initiator: EchoProcess, display=Fals
 def run_echo_algorithm(num_processes: int):
     # Generate processes with message manager
     processes, msg_manager = generate_processes(num_processes, display=True)
+    print("Generated processes:")
+    print(f"- {len(processes)} processes")
+    print(f"- {count_edges(processes)} edges\n")
 
     # Initialise message manager and processes
     msg_manager.initialise(processes)
