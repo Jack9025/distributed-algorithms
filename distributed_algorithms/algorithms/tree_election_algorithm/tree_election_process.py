@@ -53,28 +53,28 @@ class TreeElectionProcess(GenericProcess):
             self.ws = True
             self.log(f"Woken up as initiator")
             for q in self.neigh:
-                self.send(q, WakeUpMessage(self.p_id))
+                self.send(q, WakeUpMessage())
             self.log(f"Sent <wakeup> to {', '.join(str(q) for q in self.neigh)}")
 
         while self.wr < len(self.neigh):
             # Receive wakeup from q
-            q = self.receive(msg_class=WakeUpMessage).s_id
+            q, msg = self.receive(msg_class=WakeUpMessage)
             self.wr += 1
             self.log(f"Received <wakeup> from {q}")
             if not self.ws:
                 self.ws = True
                 self.log(f"Woken up")
                 for q in self.neigh:
-                    self.send(q, WakeUpMessage(self.p_id))
+                    self.send(q, WakeUpMessage())
                 self.log(f"Sent <wakeup> to {', '.join(str(q) for q in self.neigh)}")
         self.log(f"Received <wakeup> from all neighbours")
 
         # Now start the tree algorithm
         while len([q for q in self.rec if self.rec[q] is False]) > 1:
             # Receive <tok, r> from q
-            msg = self.receive(msg_class=TokElectionMessage)
-            self.rec[msg.s_id] = True
-            self.log(f"Received <tok, {msg.r}> from {msg.s_id}")
+            q, msg = self.receive(msg_class=TokElectionMessage)
+            self.rec[q] = True
+            self.log(f"Received <tok, {msg.r}> from {q}")
             # Set v
             self.v = min(self.v, msg.r)
 
@@ -89,11 +89,11 @@ class TreeElectionProcess(GenericProcess):
 
         # Send <tok, r> to silent neighbour q0
         self.log(f"Silent neighbour is {q0}")
-        self.send(q0, TokElectionMessage(self.p_id, self.v))
+        self.send(q0, TokElectionMessage(self.v))
         self.log(f"Sent <tok, {self.v}> to silent neighbour {q0}")
 
         # Receive tok from q0
-        msg = self.receive(msg_class=TokElectionMessage)
+        q0_id, msg = self.receive(msg_class=TokElectionMessage)
         self.rec[q0] = True
         self.log(f"Received <tok, {msg.r}> from silent neighbour {q0}")
 
@@ -112,7 +112,7 @@ class TreeElectionProcess(GenericProcess):
         if len([q for q in self.neigh if q != q0]) > 0:
             self.log(f"Informing {', '.join([str(q) for q in self.neigh if q != q0])} of decision")
         for q_star in [q for q in self.neigh if q != q0]:
-            self.send(q_star, TokElectionMessage(self.p_id, self.v))
+            self.send(q_star, TokElectionMessage(self.v))
 
     def __str__(self):
         return f"Process <{self.p_id}>{' (INITIATOR)' if self.initiator else ''}"

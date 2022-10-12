@@ -2,11 +2,17 @@ from distributed_algorithms.generic.messages import Message
 
 
 class WakeUpMessage(Message):
-    def __init__(self, s_id: int):
-        super().__init__(s_id)
+    def __init__(self):
+        super().__init__()
+
+    def __str__(self):
+        return "<wakeup>"
 
 
 class TokElectionMessage(Message):
-    def __init__(self, s_id: int, r: int):
-        super().__init__(s_id)
+    def __init__(self, r: int):
+        super().__init__()
         self.r = r
+
+    def __str__(self):
+        return f"<tok, {self.r}>"

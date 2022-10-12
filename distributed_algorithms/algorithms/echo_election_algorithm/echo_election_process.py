@@ -55,18 +55,18 @@ class EchoElectionProcess(GenericProcess):
             # Process is initiator
             self.caw = self.p_id
             for q in self.neigh:
-                self.send(q, TokMessage(self.p_id, self.caw))
+                self.send(q, TokMessage(self.caw))
             self.log(f"Sent <tok, {self.caw}> to {', '.join(str(q) for q in self.neigh)}")
 
         while self.lrec < len(self.neigh):
-            msg = self.receive()
-            self.log(f"Received {msg} from {msg.s_id}")
+            q, msg = self.receive()
+            self.log(f"Received {msg} from {q}")
 
             if type(msg) == LdrMessage:
                 # Message is <ldr, r>
                 if self.lrec == 0:
-                    for q in self.neigh:
-                        self.send(q, LdrMessage(self.p_id, msg.r))
+                    for s in self.neigh:
+                        self.send(s, LdrMessage(msg.r))
                     self.log(f"Sent <ldr, {self.p_id}> to all neighbours "
                              f"{', '.join(str(q) for q in self.neigh)}")
                 self.lrec += 1
@@ -79,26 +79,26 @@ class EchoElectionProcess(GenericProcess):
                 if msg.r < self.caw:
                     # Reinitialise algorithm
                     self.log(f"Set caw={msg.r} (as {msg.r} < {self.caw})")
-                    self.log(f"Father is {msg.s_id}")
+                    self.log(f"Father is {q}")
                     self.caw = msg.r
                     self.rec = 0
-                    self.father = msg.s_id
-                    for q in [q for q in self.neigh if q != self.father]:
-                        self.send(q, TokMessage(self.p_id, msg.r))
-                    if len([q for q in self.neigh if q != self.father]) > 0:
+                    self.father = q
+                    for s in [s for s in self.neigh if s != self.father]:
+                        self.send(s, TokMessage(msg.r))
+                    if len([s for s in self.neigh if s != self.father]) > 0:
                         self.log(f"Sent <tok, {msg.r}> to "
-                                 f"{', '.join([str(q) for q in self.neigh if q != self.father])}")
+                                 f"{', '.join([str(s) for s in self.neigh if s != self.father])}")
 
                 if msg.r == self.caw:
                     self.rec += 1
                     if self.rec == len(self.neigh):
                         if self.caw == self.p_id:
-                            for q in self.neigh:
-                                self.send(q, LdrMessage(self.p_id, self.p_id))
+                            for s in self.neigh:
+                                self.send(s, LdrMessage(self.p_id))
                             self.log(f"Sent <ldr, {self.p_id}> to all neighbours "
-                                     f"{', '.join(str(q) for q in self.neigh)}")
+                                     f"{', '.join(str(s) for s in self.neigh)}")
                         else:
-                            self.send(self.father, TokMessage(self.p_id, self.caw))
+                            self.send(self.father, TokMessage(self.caw))
                             self.log(f"Sent <tok, {self.caw}> to father {self.father}")
 
                 # if msg.r > self.caw: message is ignored

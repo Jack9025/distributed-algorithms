@@ -26,8 +26,8 @@ class GenericProcess:
         """Sends a message to process q"""
         if not msg:
             # Default to basic message with p_id
-            msg = Message(self.p_id)
-        self.msg_manager.add_message(q_id, msg)
+            msg = Message()
+        self.msg_manager.add_message(from_id=self.p_id, to_id=q_id, msg=msg)
 
     def log(self, msg: str):
         """Logs a message"""
