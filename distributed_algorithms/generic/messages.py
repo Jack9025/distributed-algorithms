@@ -10,6 +10,7 @@ def time() -> float:
 
 
 class Message:
+    """Basic <tok> message"""
     def __init__(self):
         self.delay = time()
 
@@ -20,6 +21,9 @@ class Message:
     def has_arrived(self) -> bool:
         """Checks if message has arrived"""
         return self.delay - time() < 0
+
+    def __str__(self):
+        return "<tok>"
 
 
 class MessageManager:
