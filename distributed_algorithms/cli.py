@@ -18,7 +18,7 @@ def tree_election_algorithm(args):
 
 
 def echo_election_algorithm(args):
-    run_echo_election_algorithm(args.processes, args.initiators, args.executions)
+    run_echo_election_algorithm(args.processes, args.initiators, args.hide_logs, args.executions)
 
 
 def cli():
@@ -52,6 +52,8 @@ def cli():
                              type=int, default=1, choices=range(1, 65))
     parser_echo.add_argument('-e', '--executions', help='number of executions',
                              type=int, default=1, choices=range(1, 10))
+    parser_echo.add_argument('--hide-logs', action='store_const',
+                             default=True, const=False, help="hides the logs produced by processes")
 
     # Parse command line
     args = parser.parse_args()
