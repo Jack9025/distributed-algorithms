@@ -2,8 +2,8 @@ from distributed_algorithms.generic.messages import Message
 
 
 class TokMessage(Message):
-    def __init__(self, s_id: int, r: int):
-        super().__init__(s_id)
+    def __init__(self, r: int):
+        super().__init__()
         self.r = r
 
     def __str__(self):
@@ -11,8 +11,8 @@ class TokMessage(Message):
 
 
 class LdrMessage(Message):
-    def __init__(self, s_id: int, r: int):
-        super().__init__(s_id)
+    def __init__(self, r: int):
+        super().__init__()
         self.r = r
 
     def __str__(self):

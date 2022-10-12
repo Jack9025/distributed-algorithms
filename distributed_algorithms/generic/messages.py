@@ -10,8 +10,7 @@ def time() -> float:
 
 
 class Message:
-    def __init__(self, s_id: int):
-        self.s_id = s_id
+    def __init__(self):
         self.delay = time()
 
     def add_delay(self):
@@ -47,23 +46,23 @@ class MessageManager:
     def has_message(self, p_id: int, msg_class=None) -> bool:
         """Checks if p has received a message"""
         assert (p_id in self.messages)
-        return len([m for m in self.messages[p_id] if m.has_arrived() and
-                    (msg_class is None or type(m) == msg_class)]) >= 1
+        return len([m for m in self.messages[p_id] if m['msg'].has_arrived() and
+                    (msg_class is None or type(m['msg']) == msg_class)]) >= 1
 
-    def fetch_message(self, p_id: int, msg_class=None) -> Message:
+    def fetch_message(self, p_id: int, msg_class=None) -> (int, Message):
         """Fetches process ids of message sent to p"""
         assert self.has_message(p_id, msg_class)
-        available_msg = [m for m in self.messages[p_id] if m.has_arrived() and
-                         (msg_class is None or type(m) == msg_class)]
+        available_msg = [m for m in self.messages[p_id] if m['msg'].has_arrived() and
+                         (msg_class is None or type(m['msg']) == msg_class)]
         msg = available_msg[randint(0, len(available_msg) - 1)]  # Select a random message
         self.messages[p_id].remove(msg)  # Delete message
-        return msg
+        return msg['s_id'], msg['msg']
 
-    def add_message(self, q_id: int, msg: Message):
+    def add_message(self, from_id: int, to_id: int, msg: Message):
         """Adds message sent to q"""
         if self.delay_msg:
             msg.add_delay()
-        self.messages[q_id].append(msg)
+        self.messages[to_id].append({'s_id': from_id, 'msg': msg})
         self.message_count += 1
 
     def log(self, msg: str):

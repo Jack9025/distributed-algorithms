@@ -31,7 +31,7 @@ class TreeProcess(GenericProcess):
 
         while len([q for q in self.rec if self.rec[q] is False]) > 1:
             # Receive tok from q
-            q = self.receive().s_id
+            q, msg = self.receive()
             self.rec[q] = True
             self.log(f"Received <tok> from {q}")
 
