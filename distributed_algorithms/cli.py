@@ -10,7 +10,7 @@ def tree_algorithm(args):
 
 
 def echo_algorithm(args):
-    run_echo_algorithm(args.processes)
+    run_echo_algorithm(args.processes, args.hide_logs, args.executions)
 
 
 def tree_election_algorithm(args):
@@ -36,6 +36,10 @@ def cli():
     parser_echo.set_defaults(func=echo_algorithm)
     parser_echo.add_argument('-n', '--processes', help='number of processes',
                              type=int, default=8, choices=range(2, 65))
+    parser_echo.add_argument('-e', '--executions', help='number of executions',
+                             type=int, default=1, choices=range(1, 10))
+    parser_echo.add_argument('--hide-logs', action='store_const',
+                             default=True, const=False, help="hides the logs produced by processes")
 
     # Tree election algorithm
     parser_echo = subparsers.add_parser('tree_election', help='runs the tree election algorithm')
