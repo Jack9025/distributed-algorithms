@@ -42,22 +42,22 @@ def cli():
                              default=True, const=False, help="hides the logs produced by processes")
 
     # Tree election algorithm
-    parser_echo = subparsers.add_parser('tree_election', help='runs the tree election algorithm')
-    parser_echo.set_defaults(func=tree_election_algorithm)
-    parser_echo.add_argument('-n', '--processes', help='number of processes',
-                             type=int, default=8, choices=range(2, 65))
+    parser_tree_election = subparsers.add_parser('tree_election', help='runs the tree election algorithm')
+    parser_tree_election.set_defaults(func=tree_election_algorithm)
+    parser_tree_election.add_argument('-n', '--processes', help='number of processes',
+                                      type=int, default=8, choices=range(2, 65))
 
     # Echo election algorithm
-    parser_echo = subparsers.add_parser('echo_election', help='runs the echo election algorithm')
-    parser_echo.set_defaults(func=echo_election_algorithm)
-    parser_echo.add_argument('-n', '--processes', help='number of processes',
-                             type=int, default=8, choices=range(2, 65))
-    parser_echo.add_argument('-i', '--initiators', help='number of initiators',
-                             type=int, default=1, choices=range(1, 65))
-    parser_echo.add_argument('-e', '--executions', help='number of executions',
-                             type=int, default=1, choices=range(1, 10))
-    parser_echo.add_argument('--hide-logs', action='store_const',
-                             default=True, const=False, help="hides the logs produced by processes")
+    parser_echo_election = subparsers.add_parser('echo_election', help='runs the echo election algorithm')
+    parser_echo_election.set_defaults(func=echo_election_algorithm)
+    parser_echo_election.add_argument('-n', '--processes', help='number of processes',
+                                      type=int, default=8, choices=range(2, 65))
+    parser_echo_election.add_argument('-i', '--initiators', help='number of initiators',
+                                      type=int, default=1, choices=range(1, 65))
+    parser_echo_election.add_argument('-e', '--executions', help='number of executions',
+                                      type=int, default=1, choices=range(1, 10))
+    parser_echo_election.add_argument('--hide-logs', action='store_const',
+                                      default=True, const=False, help="hides the logs produced by processes")
 
     # Parse command line
     args = parser.parse_args()
@@ -67,4 +67,3 @@ def cli():
         args.func(args)
     except AttributeError:
         print("You need to select an algorithm to run. Type --help for more info.")
-
