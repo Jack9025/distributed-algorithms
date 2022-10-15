@@ -139,6 +139,9 @@ def run_echo_algorithm(num_processes: int, display_logs: bool = True, num_execut
     print(f"- {len(processes)} processes")
     print(f"- {count_edges(processes)} edges\n")
 
+    print("Selected initiator: ")
+    print(f"- {processes[0]}\n")
+
     for i in range(num_executions):
         print(f"Running echo algorithm ({i + 1} / {num_executions}) ...\n")
         execute_echo_algorithm(processes=processes,
