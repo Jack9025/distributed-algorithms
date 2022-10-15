@@ -1,8 +1,5 @@
-
 from random import randint, choice, shuffle
-
 from typing import List
-
 from .tree_process import TreeProcess
 from treelib import Tree
 from ...generic.messages import MessageManager
