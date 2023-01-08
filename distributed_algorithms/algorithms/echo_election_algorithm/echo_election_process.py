@@ -67,7 +67,7 @@ class EchoElectionProcess(GenericProcess):
                 if self.lrec == 0:
                     for s in self.neigh:
                         self.send(s, LdrMessage(msg.r))
-                    self.log(f"Sent <ldr, {self.p_id}> to all neighbours "
+                    self.log(f"Sent <ldr, {msg.r}> to all neighbours "
                              f"{', '.join(str(q) for q in self.neigh)}")
                 self.lrec += 1
                 self.win = msg.r
