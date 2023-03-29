@@ -69,3 +69,6 @@ def run_tree_algorithm(num_processes: int):
     # Output logs
     print("Logs from processes:")
     print("\n".join(msg_manager.logs))
+
+    # Message count
+    print(f"\nTotal number of messages sent during tree algorithm: {msg_manager.message_count}\n")
